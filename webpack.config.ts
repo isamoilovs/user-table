@@ -3,7 +3,10 @@ import HtmlWebpackPlugin from 'html-webpack-plugin'
 import { Configuration as WebpackConfiguration } from 'webpack'
 import { Configuration as DevServerConfiguration } from 'webpack-dev-server'
 
-export default (_: never, { mode = 'development' }: IWebpackArgs): Configuration => {
+export default (
+  _: never,
+  { mode = 'development' }: IWebpackArgs
+): Configuration => {
   return {
     mode,
 
@@ -21,7 +24,7 @@ export default (_: never, { mode = 'development' }: IWebpackArgs): Configuration
     },
 
     resolve: {
-      extensions: [ '.ts', '.tsx', '.js', '.jsx' ]
+      extensions: ['.ts', '.tsx', '.js', '.jsx']
     },
 
     module: {
@@ -33,7 +36,7 @@ export default (_: never, { mode = 'development' }: IWebpackArgs): Configuration
         },
         {
           test: /\.css$/,
-          use: [ 'style-loader', 'css-loader' ]
+          use: ['style-loader', 'css-loader']
         },
         {
           test: /\.less$/,
@@ -60,7 +63,9 @@ export default (_: never, { mode = 'development' }: IWebpackArgs): Configuration
   }
 }
 
-interface IWebpackArgs { mode?: 'development' | 'production' }
+interface IWebpackArgs {
+  mode?: 'development' | 'production'
+}
 
 interface Configuration extends WebpackConfiguration {
   devServer?: DevServerConfiguration
