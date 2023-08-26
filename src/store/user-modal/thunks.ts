@@ -1,10 +1,19 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
+import { randomuser } from '../../utils'
 
-import { IUserModal } from 'components/user-modal/types'
-
-export const addUser = createAsyncThunk(
-  'userModal.addUser',
-  async (user: IUserModal) => {
-    return user
+export const createUser = createAsyncThunk(
+  'userModal.createUser',
+  async (_: void, { dispatch }) => {
+    const randomUser = await randomuser(1)
+    return randomUser[0]
   }
 )
+
+export const confirmCreateUser = createAsyncThunk(
+  'userModal.confirmCreateUser',
+  async (_: void, { dispatch }) => {
+    return 'asd'
+  }
+)
+
+

@@ -19,7 +19,7 @@ export interface IUser {
   location: ILocation
 }
 
-interface IDateRange {
+export interface IDateRange {
   age: number
   date: string
 }
@@ -33,11 +33,11 @@ interface ILocation {
   country: string
   state: string
   city: string
-  street: { name: string, number: number }
+  street: { name: string; number: number }
   postcode: number
 
-  coordinates: { latitude: string, longitude: string }
-  timezone: { description: string, offset: string }
+  coordinates: { latitude: string; longitude: string }
+  timezone: { description: string; offset: string }
 }
 
 interface ILoginInfo {
@@ -50,7 +50,7 @@ interface ILoginInfo {
   sha256: string
 }
 
-interface IUserName {
+export interface IUserName {
   title: string
   first: string
   last: string

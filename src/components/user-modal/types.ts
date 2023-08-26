@@ -1,12 +1,20 @@
+import { IDateRange, IUserName } from 'models/randomuser'
+
 export interface IUserModal {
-  name: string
+  name: IUserName
   email: string
   phone: string
   cell: string
-  dob: Date
+  dob: IDateRange
+  onCancel: () => void
+  onSubmit: () => void
 }
 
 export interface IUserModalProps {
   visible: boolean
   user: IUserModal
+  operation: 'create' | 'update' | 'delete'
+  fetching: boolean
+  onCancel: () => void
+  onSubmit: () => void
 }
