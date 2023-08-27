@@ -9,11 +9,5 @@ export const createUser = createAsyncThunk(
   }
 )
 
-export const confirmCreateUser = createAsyncThunk(
-  'userModal.confirmCreateUser',
-  async (_: void, { dispatch }) => {
-    return 'asd'
-  }
-)
 
 

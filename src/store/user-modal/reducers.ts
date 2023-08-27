@@ -1,6 +1,7 @@
 import { createReducer, createSlice } from '@reduxjs/toolkit'
 import { IUserModalState } from './types'
-import { createUser, confirmCreateUser } from './thunks'
+import { createUser } from './thunks'
+import { deleteUser, dismissModal, editUser } from './actions'
 
 const initialState: IUserModalState = {
   visible: false,
@@ -16,61 +17,44 @@ const initialState: IUserModalState = {
   confirmLoading: false
 }
 
-export const modalSlice = createSlice({
-  name: 'modal',
-  initialState,
-  reducers: {
-    dismissModal: (state = initialState) => {
-      return { ...state, visible: false, user: { ...initialState.user } }
-    },
-    editUser: (state = initialState, { payload }) => {
+export const userModalReducer = createReducer(initialState, (builder) => {
+  builder
+    .addCase(dismissModal, (state) => ({
+      ...state,
+      visible: false,
+      user: { ...initialState.user }
+    }))
+    .addCase(editUser, (state, { payload }) => ({
+      ...state,
+      user: { ...payload },
+      operation: 'update',
+      visible: true
+    }))
+    .addCase(deleteUser, (state, { payload }) => ({
+      ...state,
+      operation: 'delete',
+      visible: true,
+      user: { ...payload }
+    }))
+    .addCase(createUser.pending, (state) => {
+      return { ...state, fetching: true, operation: 'create', visible: false }
+    })
+    .addCase(createUser.fulfilled, (state, { payload }) => {
+      console.log('userModalReducer present state: ', payload)
       return {
         ...state,
-        user: { ...payload },
-        operation: 'update',
-        visible: true
-      }
-    },
-    deleteUser: (state = initialState, { payload }) => {
-      return {
-        ...state,
-        operation: 'delete',
         visible: true,
+        fetching: false,
         user: { ...payload }
       }
-    }
-  },
-  extraReducers: (builder) => {
-    builder
-      .addCase(createUser.pending, (state) => {
-        return { ...state, fetching: true, operation: 'create', visible: false }
-      })
-      .addCase(createUser.fulfilled, (state, { payload }) => {
-        console.log('userModalReducer present state: ', payload)
-        return {
-          ...state,
-          visible: true,
-          fetching: false,
-          user: { ...payload }
-        }
-      })
-      .addCase(createUser.rejected, (state, { payload }) => {
-        console.log('userModalReducer present state: ', payload)
-        return {
-          ...state,
-          visible: false,
-          fetching: false,
-          user: initialState.user
-        }
-      })
-    // .addCase(confirmCreateUser.pending, (state) => {})
-    // .addCase(confirmCreateUser.fulfilled, (state, { payload }) => {
-    //   console.log(payload)
-    // })
-    // .addCase(confirmCreateUser.rejected, (state, { payload }) => {
-    //   console.log(payload)
-    // })
-  }
+    })
+    .addCase(createUser.rejected, (state, { payload }) => {
+      console.log('userModalReducer present state: ', payload)
+      return {
+        ...state,
+        visible: false,
+        fetching: false,
+        user: initialState.user
+      }
+    })
 })
-
-export const { dismissModal, editUser, deleteUser } = modalSlice.actions

@@ -5,9 +5,9 @@ import { UsersTableContainer } from './users-table-container'
 
 import { generate } from '../store/users/thunks'
 import { useAppDispatch, useAppSelector } from '../store'
-import { confirmCreateUser, createUser } from '../store/user-modal/thunks'
-import { UserModal } from '../components/user-modal/user-modal'
-import { dismissModal } from '../store/user-modal/reducers'
+import { createUser } from '../store/user-modal/thunks'
+import { dismissModal } from '../store/user-modal/actions'
+import { UserModal } from '../components/user-modal'
 
 export const AppLayoutContainer = () => {
   const dispatch = useAppDispatch()
@@ -36,7 +36,7 @@ export const AppLayoutContainer = () => {
       <UsersTableContainer />
       <UserModal
         onCancel={() => dispatch(dismissModal())}
-        onSubmit={() => dispatch(confirmCreateUser())}
+        onSubmit={() => {}}
         visible={visible}
         operation={operation}
         fetching={fetching}

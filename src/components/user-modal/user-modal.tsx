@@ -1,21 +1,23 @@
 import {
   Button,
   DatePicker,
-  DatePickerProps,
   Form,
   Input,
   Modal,
-  Select,
   Space
 } from 'antd'
-import { IUserModal, IUserModalProps } from './types'
+
+import { IUserModalLayoutProps, IUserModalProps } from './types'
+
 import React, { useEffect, useState } from 'react'
+
 import {
   PhoneOutlined,
   MobileOutlined,
   MailOutlined,
   UserOutlined
 } from '@ant-design/icons'
+
 import moment from 'moment'
 
 export const UserModal = ({
@@ -41,7 +43,11 @@ export const UserModal = ({
       case 'create':
       case 'update':
         return (
-          <CreateUserLayout {...user} onSubmit={onSubmit} onCancel={onCancel} />
+          <UserModalLayout
+            user={user}
+            onSubmit={onSubmit}
+            onCancel={onCancel}
+          />
         )
       case 'delete':
         return (
@@ -90,15 +96,12 @@ export const UserModal = ({
   )
 }
 
-const CreateUserLayout = ({
-  name,
-  email,
-  phone,
-  dob,
-  cell,
+const UserModalLayout = ({
+  user,
   onCancel,
   onSubmit
-}: IUserModal) => {
+}: IUserModalLayoutProps) => {
+  const { name, dob, phone, cell, email } = user
   const [form] = Form.useForm()
   const [birthday, setBirthday] = useState(new Date(dob.date))
 
@@ -120,7 +123,7 @@ const CreateUserLayout = ({
       layout="vertical"
       style={{ maxWidth: 600 }}
       name={'user-modal-form-data'}
-      onFinish={(v) => console.log('finished:', v)}
+      onFinish={() => onSubmit()}
     >
       <Space size={'small'} key={'user-modal-form-name'}>
         <Form.Item
@@ -129,7 +132,7 @@ const CreateUserLayout = ({
           label="Приставка"
         >
           <Input
-            prefix={<UserOutlined />}
+            prefix={<UserOutlined rev={undefined} />}
             size="middle"
             placeholder="Приставка..."
           />
@@ -141,7 +144,11 @@ const CreateUserLayout = ({
           label="Имя"
           rules={[{ required: true, message: 'Пожалуйста, введите имя!' }]}
         >
-          <Input prefix={<UserOutlined />} size="middle" placeholder="Имя..." />
+          <Input
+            prefix={<UserOutlined rev={undefined} />}
+            size="middle"
+            placeholder="Имя..."
+          />
         </Form.Item>
 
         <Form.Item
@@ -151,7 +158,7 @@ const CreateUserLayout = ({
           rules={[{ required: true, message: 'Пожалуйста, введите фамилию!' }]}
         >
           <Input
-            prefix={<UserOutlined />}
+            prefix={<UserOutlined rev={undefined} />}
             size="middle"
             placeholder="Фамилия..."
           />
@@ -171,7 +178,7 @@ const CreateUserLayout = ({
           ]}
         >
           <Input
-            prefix={<MailOutlined />}
+            prefix={<MailOutlined rev={undefined} />}
             size="middle"
             placeholder="E-mail..."
           />
@@ -186,7 +193,7 @@ const CreateUserLayout = ({
           ]}
         >
           <Input
-            prefix={<PhoneOutlined />}
+            prefix={<PhoneOutlined rev={undefined} />}
             type="phone"
             size="middle"
             placeholder="Телефон..."
@@ -205,7 +212,7 @@ const CreateUserLayout = ({
           ]}
         >
           <Input
-            prefix={<MobileOutlined />}
+            prefix={<MobileOutlined rev={undefined} />}
             type="phone"
             size="middle"
             placeholder="Сотовый телефон..."

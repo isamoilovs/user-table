@@ -3,8 +3,8 @@ import React from 'react'
 import { UsersTable } from '../components/users-table'
 
 import { useAppDispatch, useAppSelector } from '../store'
-import { deleteUser, editUser } from '../store/user-modal/reducers'
 import { IUser } from 'models'
+import { deleteUser, editUser } from '../store/user-modal/actions'
 
 export const UsersTableContainer = () => {
   const { users, fetching } = useAppSelector((s) => s.users)

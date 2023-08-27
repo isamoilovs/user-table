@@ -6,8 +6,6 @@ export interface IUserModal {
   phone: string
   cell: string
   dob: IDateRange
-  onCancel: () => void
-  onSubmit: () => void
 }
 
 export interface IUserModalProps {
@@ -15,6 +13,12 @@ export interface IUserModalProps {
   user: IUserModal
   operation: 'create' | 'update' | 'delete'
   fetching: boolean
+  onCancel: () => void
+  onSubmit: () => void
+}
+
+export interface IUserModalLayoutProps {
+  user: IUserModal
   onCancel: () => void
   onSubmit: () => void
 }

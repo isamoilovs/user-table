@@ -1,5 +1,6 @@
 import { createAction } from '@reduxjs/toolkit'
+import { IUser } from 'models'
 
-export const open = createAction('userModal.open')
-export const hide = createAction('userModal.hide')
-export const setUser = createAction('userModal.setUser')
+export const dismissModal = createAction('userModal.dismissModal')
+export const editUser = createAction<IUser>('userModal.editUser')
+export const deleteUser = createAction<IUser>('userModal.deleteUser')
