@@ -1,17 +1,14 @@
 import { createReducer, createSlice } from '@reduxjs/toolkit'
 import { IUserModalState } from './types'
-import { createUser } from './thunks'
-import { deleteUser, dismissModal, editUser } from './actions'
+import { createUserModal } from './thunks'
+import { deleteUser, dismissModal, editUser, setUser } from './actions'
+let userEmptyJSON = require('../../data/random-user-empty.json')
 
 const initialState: IUserModalState = {
   visible: false,
   fetching: false,
   user: {
-    name: { title: '', first: '', last: '' },
-    email: '',
-    cell: '',
-    phone: '',
-    dob: { age: 0, date: '' }
+    ...userEmptyJSON
   },
   operation: 'create',
   confirmLoading: false
@@ -21,8 +18,8 @@ export const userModalReducer = createReducer(initialState, (builder) => {
   builder
     .addCase(dismissModal, (state) => ({
       ...state,
-      visible: false,
-      user: { ...initialState.user }
+      user: { ...initialState.user },
+      visible: false
     }))
     .addCase(editUser, (state, { payload }) => ({
       ...state,
@@ -36,25 +33,26 @@ export const userModalReducer = createReducer(initialState, (builder) => {
       visible: true,
       user: { ...payload }
     }))
-    .addCase(createUser.pending, (state) => {
-      return { ...state, fetching: true, operation: 'create', visible: false }
-    })
-    .addCase(createUser.fulfilled, (state, { payload }) => {
-      console.log('userModalReducer present state: ', payload)
-      return {
-        ...state,
-        visible: true,
-        fetching: false,
-        user: { ...payload }
-      }
-    })
-    .addCase(createUser.rejected, (state, { payload }) => {
-      console.log('userModalReducer present state: ', payload)
-      return {
-        ...state,
-        visible: false,
-        fetching: false,
-        user: initialState.user
-      }
-    })
+    .addCase(setUser, (state, { payload }) => ({
+      ...state,
+      user: { ...payload }
+    }))
+    .addCase(createUserModal.pending, (state) => ({
+      ...state,
+      fetching: true,
+      operation: 'create',
+      visible: false
+    }))
+    .addCase(createUserModal.fulfilled, (state, { payload }) => ({
+      ...state,
+      visible: true,
+      fetching: false,
+      user: { ...payload }
+    }))
+    .addCase(createUserModal.rejected, (state) => ({
+      ...state,
+      visible: false,
+      fetching: false,
+      user: initialState.user
+    }))
 })

@@ -5,9 +5,11 @@ import { UsersTableContainer } from './users-table-container'
 
 import { generate } from '../store/users/thunks'
 import { useAppDispatch, useAppSelector } from '../store'
-import { createUser } from '../store/user-modal/thunks'
-import { dismissModal } from '../store/user-modal/actions'
+import { createUserModal } from '../store/user-modal/thunks'
+import { dismissModal, setUser } from '../store/user-modal/actions'
 import { UserModal } from '../components/user-modal'
+import { createUser, deleteUser, updateUser } from '../store/users/actions'
+import { IUser } from 'models'
 
 export const AppLayoutContainer = () => {
   const dispatch = useAppDispatch()
@@ -26,17 +28,37 @@ export const AppLayoutContainer = () => {
       key: 'tap',
       title: 'Добавить пользователя',
       action: () => {
-        dispatch(createUser())
+        dispatch(createUserModal())
       }
     }
   ]
+
+  const selectSubmit = () => {
+    switch (operation) {
+      case 'create':
+        return (user: IUser) => {
+          dispatch(createUser(user))
+          dispatch(dismissModal())
+        }
+      case 'update':
+        return (user: IUser) => {
+          dispatch(updateUser(user))
+          dispatch(dismissModal())
+        }
+      case 'delete':
+        return (user: IUser) => {
+          dispatch(deleteUser(user))
+          dispatch(dismissModal())
+        }
+    }
+  }
 
   return (
     <AppLayout actions={actions}>
       <UsersTableContainer />
       <UserModal
         onCancel={() => dispatch(dismissModal())}
-        onSubmit={() => {}}
+        onSubmit={selectSubmit()}
         visible={visible}
         operation={operation}
         fetching={fetching}

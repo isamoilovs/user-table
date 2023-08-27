@@ -1,0 +1,35 @@
+{
+  "id": { "name": "", "value": "" },
+  "login": {
+    "uuid": "",
+    "username": "",
+    "password": "",
+    "salt": "",
+    "md5": "",
+    "sha1": "",
+    "sha256": ""
+  },
+  "picture": {
+    "thumbnail": "",
+    "medium": "",
+    "large": ""
+  },
+  "name": { "title": "", "first": "", "last": "" },
+  "gender": "male",
+  "nat": "AU",
+  "dob": { "age": 0, "date": "" },
+  "registered": { "age": 0, "date": "" },
+  "email": "",
+  "phone": "",
+  "cell": "",
+  "location": {
+    "country": "",
+    "state": "",
+    "city": "",
+    "street": { "name": "", "number": 0 },
+    "postcode": 0,
+
+    "coordinates": { "latitude": "", "longitude": "string" },
+    "timezone": { "description": "", "offset": "" }
+  }
+}

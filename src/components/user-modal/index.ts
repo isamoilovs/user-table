@@ -1,6 +1,5 @@
 export { UserModal } from './user-modal'
 export type {
   IUserModalLayoutProps,
-  IUserModalProps,
-  IUserModal
+  IUserModalProps
 } from './types'

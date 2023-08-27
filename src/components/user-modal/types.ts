@@ -1,24 +1,24 @@
-import { IDateRange, IUserName } from 'models/randomuser'
-
-export interface IUserModal {
-  name: IUserName
-  email: string
-  phone: string
-  cell: string
-  dob: IDateRange
-}
+import { IDateRange, IUser, IUserName } from 'models/randomuser'
 
 export interface IUserModalProps {
   visible: boolean
-  user: IUserModal
+  user: IUser
   operation: 'create' | 'update' | 'delete'
   fetching: boolean
   onCancel: () => void
-  onSubmit: () => void
+  onSubmit: (user: IUser) => void
 }
 
 export interface IUserModalLayoutProps {
-  user: IUserModal
+  user: IUser
   onCancel: () => void
-  onSubmit: () => void
+  onSubmit: (user: IUser) => void
+}
+
+export interface IUserModalState {
+  visible: boolean
+  user: IUser
+  operation: 'create' | 'update' | 'delete'
+  fetching: boolean
+  confirmLoading: boolean
 }

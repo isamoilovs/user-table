@@ -35,7 +35,7 @@ interface ILocation {
   city: string
   street: { name: string; number: number }
   postcode: number
-
+  
   coordinates: { latitude: string; longitude: string }
   timezone: { description: string; offset: string }
 }

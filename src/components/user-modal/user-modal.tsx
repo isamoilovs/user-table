@@ -19,6 +19,7 @@ import {
 } from '@ant-design/icons'
 
 import moment from 'moment'
+import { ageFromDate } from '../../utils'
 
 export const UserModal = ({
   visible,
@@ -27,6 +28,8 @@ export const UserModal = ({
   onCancel,
   onSubmit
 }: IUserModalProps) => {
+  const { title, first, last } = user.name
+
   const modalTitle = () => {
     switch (operation) {
       case 'create':
@@ -53,7 +56,7 @@ export const UserModal = ({
         return (
           <p>
             Вы уверены, что хотите удалить пользователя{' '}
-            {user.name.title + ' ' + user.name.first + ' ' + user.name.last}?
+            {title + ' ' + first + ' ' + last}?
           </p>
         )
     }
@@ -74,6 +77,7 @@ export const UserModal = ({
               type="primary"
               htmlType="submit"
               danger
+              onClick={() => onSubmit(user)}
             >
               Удалить
             </Button>
@@ -103,7 +107,6 @@ const UserModalLayout = ({
 }: IUserModalLayoutProps) => {
   const { name, dob, phone, cell, email } = user
   const [form] = Form.useForm()
-  const [birthday, setBirthday] = useState(new Date(dob.date))
 
   useEffect(() => {
     form.setFieldsValue({
@@ -123,7 +126,25 @@ const UserModalLayout = ({
       layout="vertical"
       style={{ maxWidth: 600 }}
       name={'user-modal-form-data'}
-      onFinish={() => onSubmit()}
+      onFinish={(v) => {
+        const nameForm = { title: v.title, first: v.first, last: v.last }
+        const dobForm = {
+          date: v.dob.toDate().toISOString(),
+          age: ageFromDate(v.dob.toDate().toISOString())
+        }
+
+        const userFormData = {
+          name: nameForm,
+          dob: dobForm,
+          phone: v.phone,
+          cell: v.cell,
+          email: v.email
+        }
+
+        let userTmp = { ...user, ...userFormData }
+
+        onSubmit(userTmp)
+      }}
     >
       <Space size={'small'} key={'user-modal-form-name'}>
         <Form.Item

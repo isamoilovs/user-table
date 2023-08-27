@@ -1,9 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { randomuser } from '../../utils'
 
-export const createUser = createAsyncThunk(
+export const createUserModal = createAsyncThunk(
   'userModal.createUser',
-  async (_: void, { dispatch }) => {
+  async () => {
     const randomUser = await randomuser(1)
     return randomUser[0]
   }
