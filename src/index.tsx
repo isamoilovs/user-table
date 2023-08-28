@@ -1,6 +1,7 @@
 import 'core-js/stable'
 import 'regenerator-runtime/runtime'
 import 'current-script-polyfill'
+import '../micro-app-mf-decl.d'
 
 import dayjs from 'dayjs'
 import ru from 'dayjs/locale/ru'
@@ -13,5 +14,12 @@ import { ReactApplicationContainer } from './containers/react-application-contai
 
 import 'antd/dist/antd.min.css'
 
+const Button = React.lazy(() => import('microapp-mf/Button'))
+
 const container = document.getElementById('root')
-ReactDOM.render(<ReactApplicationContainer />, container)
+ReactDOM.render(
+  <ReactApplicationContainer
+    MFSiderElem={<Button buttonName={'Hello World!'} />}
+  />,
+  container
+)

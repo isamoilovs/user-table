@@ -1,7 +1,8 @@
 import path from 'path'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
-import { Configuration as WebpackConfiguration } from 'webpack'
+import { Configuration as WebpackConfiguration, container } from 'webpack'
 import { Configuration as DevServerConfiguration } from 'webpack-dev-server'
+const { ModuleFederationPlugin } = require('webpack').container
 
 export default (
   _: never,
@@ -13,7 +14,7 @@ export default (
     devtool: mode == 'development' ? 'source-map' : false,
     devServer: {
       hot: true,
-      port: 8080
+      port: 8081
     },
 
     entry: './src/index',
@@ -55,6 +56,14 @@ export default (
     },
 
     plugins: [
+      new ModuleFederationPlugin({
+        name: 'Host',
+        filename: 'remoteEntry.js',
+        remotes: {
+          'microapp-mf':
+            'microapp@http://localhost:8080/remoteEntry.js'
+        }
+      }),
       new HtmlWebpackPlugin({
         title: 'User Table',
         template: 'public/index.html'
