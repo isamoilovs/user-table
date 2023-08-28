@@ -5,11 +5,18 @@ import { IAppLayoutProps } from './types'
 
 import './app-layout.less'
 
+
+import '../../../micro-app-mf-decl.d'
+import { useAppSelector } from '../../store'
+const Button = React.lazy(() => import('microapp-mf/Button'))
+
 export const AppLayout = ({
   children,
-  actions,
-  // MFSiderElem
-}: IAppLayoutProps) => {
+  actions
+}: // MFSiderElem
+IAppLayoutProps) => {
+  const { user } = useAppSelector((s) => s.userModal)
+
   const items = useMemo(
     () =>
       actions?.map(({ key, title, action }) => ({
@@ -38,9 +45,9 @@ export const AppLayout = ({
       <Layout>
         <Layout.Sider className="app-layout-sider" width={350}>
           {/* Module Federation */}
-          {/* <Suspense>
-            <MFSiderElem />
-          </Suspense> */}
+          <Suspense fallback="load...">
+            <Button buttonName={user.name.first} />
+          </Suspense>
         </Layout.Sider>
         <Layout.Content className="app-layout-content">
           {children}

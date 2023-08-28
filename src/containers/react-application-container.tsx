@@ -9,7 +9,7 @@ import { AppLayoutContainer } from './app-layout-container'
 import { store, useAppDispatch, useAppSelector } from '../store'
 import { initApplication } from '../store/thunks'
 
-const ApplicationContainer = ({ MFSiderElem }) => {
+const ApplicationContainer = () => {
   const dispatch = useAppDispatch()
   const ready = useAppSelector((s) => s.application.ready)
 
@@ -28,17 +28,16 @@ const ApplicationContainer = ({ MFSiderElem }) => {
       ready={ready}
     >
       <ConfigProvider locale={ru}>
-        <AppLayoutContainer MFSiderElem={<MFSiderElem />} />
+        <AppLayoutContainer />
       </ConfigProvider>
     </ContentLoader>
   )
 }
 
-export const ReactApplicationContainer = ({ MFSiderElem }: ReactNode) => {
+export const ReactApplicationContainer = () => {
   return (
     <Provider store={store}>
-      <ApplicationContainer MFSiderElem={<MFSiderElem />} />
-      <Suspense fallback="load...">{MFSiderElem}</Suspense>
+      <ApplicationContainer />
     </Provider>
   )
 }
